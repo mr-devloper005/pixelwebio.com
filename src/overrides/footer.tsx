@@ -48,9 +48,11 @@ export function FooterOverride() {
         <div className="grid gap-10 lg:grid-cols-[1.4fr_2.6fr]">
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-lg font-black text-white">
-                P
-              </span>
+              <img
+                src="/favicon.png"
+                alt="Pixelwebio logo"
+                className="h-10 w-10 rounded-xl bg-white object-contain p-1 shadow"
+              />
               <span className="text-xl font-black text-white">
                 Pixel<span className="text-amber-400">webio</span>
               </span>
