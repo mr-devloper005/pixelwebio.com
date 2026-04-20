@@ -1,29 +1,99 @@
-﻿import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
-
-const sections = [
-  { title: 'Data We Collect', body: 'Account information, usage analytics, and content you submit.' },
-  { title: 'How We Use Data', body: 'To personalize your experience, improve search, and keep the platform secure.' },
-  { title: 'Your Choices', body: 'You can manage email preferences and delete your account at any time.' },
-]
+﻿import { LegalPage } from '@/components/shared/legal-page'
 
 export default function PrivacyPage() {
   return (
-    <PageShell
-      title="Privacy Policy"
-      description="How we collect, use, and protect your information."
-    >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-4">
-          <p className="text-xs text-muted-foreground">Last updated: March 16, 2026</p>
-          {sections.map((section) => (
-            <div key={section.title} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{section.body}</p>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-    </PageShell>
+    <LegalPage
+      current="Privacy"
+      eyebrow="Legal"
+      title="Privacy"
+      highlight="Policy"
+      description="How Pixelwebio collects, uses, and protects your personal information when you use our image and profile platform."
+      updated="April 18, 2026"
+      sections={[
+        {
+          id: 'overview',
+          heading: 'Overview',
+          body: (
+            <p>
+              At Pixelwebio we believe privacy is a feature, not a footnote. This policy explains
+              what information we collect, why we collect it, and the choices you have. If you have
+              questions, email <a href="mailto:privacy@pixelwebio.com">privacy@pixelwebio.com</a>.
+            </p>
+          ),
+        },
+        {
+          id: 'information-we-collect',
+          heading: 'Information we collect',
+          body: (
+            <>
+              <p>We collect only what we need to provide our services:</p>
+              <ul>
+                <li>Account info — name, email, password (hashed), and profile details you choose to share.</li>
+                <li>Content — galleries, images, captions, and profile media you upload.</li>
+                <li>Usage data — pages visited, features used, and basic device/browser info.</li>
+                <li>Cookies — see our <a href="/cookies">Cookies policy</a> for details.</li>
+              </ul>
+            </>
+          ),
+        },
+        {
+          id: 'how-we-use',
+          heading: 'How we use your information',
+          body: (
+            <ul>
+              <li>To run, maintain, and improve the Pixelwebio service.</li>
+              <li>To display your public profile and galleries to other users.</li>
+              <li>To send essential service emails (account, billing, security).</li>
+              <li>To detect and prevent fraud, abuse, and policy violations.</li>
+            </ul>
+          ),
+        },
+        {
+          id: 'sharing',
+          heading: 'Sharing & disclosure',
+          body: (
+            <p>
+              We do not sell your personal data. We share information only with trusted processors
+              who help us run the platform (hosting, analytics, payments) under strict contracts,
+              and only when required by law.
+            </p>
+          ),
+        },
+        {
+          id: 'your-rights',
+          heading: 'Your rights',
+          body: (
+            <ul>
+              <li>Access — request a copy of your data anytime.</li>
+              <li>Correct — update inaccurate information.</li>
+              <li>Delete — permanently remove your account and content.</li>
+              <li>Export — download your galleries and profile data.</li>
+            </ul>
+          ),
+        },
+        {
+          id: 'security',
+          heading: 'Security',
+          body: (
+            <p>
+              We use encryption in transit (TLS) and at rest, run regular security reviews, and
+              follow industry best practices. No system is perfectly secure — but we treat your
+              data like our own.
+            </p>
+          ),
+        },
+        {
+          id: 'contact',
+          heading: 'Contact us',
+          body: (
+            <p>
+              Questions about privacy? Reach our team at{' '}
+              <a href="mailto:privacy@pixelwebio.com">privacy@pixelwebio.com</a> or through our{' '}
+              <a href="/contact">contact page</a>.
+            </p>
+          ),
+        },
+      ]}
+    />
   )
 }
