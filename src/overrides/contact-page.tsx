@@ -1,21 +1,27 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
-import { Mail, Phone, MapPin, MessageSquare, Send, Camera, Users } from 'lucide-react'
+import { Mail, Phone, MapPin, MessageSquare, Send, Camera, Users, ArrowUpRight } from 'lucide-react'
 import { AmberPage, AmberSection, AmberCard } from '@/components/shared/amber-page'
 
 export const CONTACT_PAGE_OVERRIDE_ENABLED = true
 
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || 'hello@pixelwebio.com'
+const supportEmail = process.env.NEXT_PUBLIC_CONTACT_SUPPORT_EMAIL?.trim() || contactEmail
+const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || '+1 (408) 555-0123'
+const contactAddress = process.env.NEXT_PUBLIC_CONTACT_ADDRESS?.trim() || '123 Market St, San Francisco'
+
 const channels = [
-  { icon: Mail, title: 'Email us', text: 'hello@pixelwebio.com', meta: 'Replies within 24 hours' },
-  { icon: Phone, title: 'Call us', text: '+1 (408) 555-0123', meta: 'Mon–Fri, 9am to 6pm PT' },
-  { icon: MapPin, title: 'Visit us', text: '123 Market St, San Francisco', meta: 'By appointment only' },
+  { icon: Mail, title: 'Email us', text: contactEmail, meta: 'Replies within 24 hours' },
+  { icon: Phone, title: 'Call us', text: contactPhone, meta: 'Mon-Fri, 9am to 6pm PT' },
+  { icon: MapPin, title: 'Visit us', text: contactAddress, meta: 'By appointment only' },
 ]
 
 const reasons = [
   { icon: Camera, title: 'Book a shoot', text: 'Talk to our team about portraits, events, and brand sessions.' },
   { icon: Users, title: 'Creator partnerships', text: 'Collaborate on features, campaigns, and gallery launches.' },
-  { icon: MessageSquare, title: 'Support &amp; help', text: 'Account, billing, gallery, or profile questions — we&apos;re here.' },
+  { icon: MessageSquare, title: 'Support & help', text: "Account, billing, gallery, or profile questions - we're here." },
 ]
 
 export function ContactPageOverride() {
@@ -32,20 +38,51 @@ export function ContactPageOverride() {
       eyebrow="Get in touch"
       title="Let's create"
       highlight="something together"
-      description="Whether you want to book a shoot, partner with us, or just say hello — we'd love to hear from you. Fill the form below or use one of the channels."
+      description="Whether you want to book a shoot, partner with us, or just say hello, we'd love to hear from you. Fill the form below or use one of the channels."
+      actions={
+        <>
+          <Link
+            href={`mailto:${contactEmail}`}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
+          >
+            Email us <ArrowUpRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href={`mailto:${supportEmail}`}
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 transition hover:bg-amber-50"
+          >
+            Support email <Mail className="h-4 w-4" />
+          </Link>
+        </>
+      }
     >
       <AmberSection>
         <div className="grid gap-5 md:grid-cols-3">
-          {channels.map((c) => (
-            <AmberCard key={c.title}>
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white">
-                <c.icon className="h-5 w-5" />
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-slate-900">{c.title}</h3>
-              <p className="mt-2 font-semibold text-amber-600">{c.text}</p>
-              <p className="mt-1 text-xs text-slate-500">{c.meta}</p>
-            </AmberCard>
-          ))}
+          {channels.map((c) => {
+            const href =
+              c.title === 'Email us'
+                ? `mailto:${c.text}`
+                : c.title === 'Call us'
+                  ? `tel:${c.text.replace(/[^\d+]/g, '')}`
+                  : undefined
+
+            return (
+              <AmberCard key={c.title}>
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white">
+                  <c.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 text-lg font-bold text-slate-900">{c.title}</h3>
+                {href ? (
+                  <a href={href} className="mt-2 block font-semibold text-amber-600 hover:underline">
+                    {c.text}
+                  </a>
+                ) : (
+                  <p className="mt-2 font-semibold text-amber-600">{c.text}</p>
+                )}
+                <p className="mt-1 text-xs text-slate-500">{c.meta}</p>
+              </AmberCard>
+            )
+          })}
         </div>
       </AmberSection>
 
@@ -62,7 +99,7 @@ export function ContactPageOverride() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">{r.title}</h3>
-                    <p className="mt-1 text-sm leading-7 text-slate-600" dangerouslySetInnerHTML={{ __html: r.text }} />
+                    <p className="mt-1 text-sm leading-7 text-slate-600">{r.text}</p>
                   </div>
                 </div>
               ))}
@@ -87,7 +124,7 @@ export function ContactPageOverride() {
               </div>
               <input required type="email" placeholder="Email address" className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none focus:border-amber-400 focus:bg-white" />
               <input placeholder="What is this about?" className="h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm outline-none focus:border-amber-400 focus:bg-white" />
-              <textarea required placeholder="Tell us a bit more…" rows={5} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-amber-400 focus:bg-white" />
+              <textarea required placeholder="Tell us a bit more..." rows={5} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-amber-400 focus:bg-white" />
               <button type="submit" className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-6 py-3.5 text-sm font-bold text-white shadow-md hover:opacity-90">
                 Send message <Send className="h-4 w-4" />
               </button>

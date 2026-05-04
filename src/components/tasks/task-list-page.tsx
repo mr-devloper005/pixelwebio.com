@@ -170,18 +170,36 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'image-masonry' || layoutKey === 'image-portfolio' ? (
-          <section className="mb-12 grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <section className="mb-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
               <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${ui.soft}`}>
-                <Icon className="h-3.5 w-3.5" /> Visual feed
+                <Icon className="h-3.5 w-3.5" /> Visual archive
               </div>
-              <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em]">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This surface leans into stronger imagery, larger modules, and more expressive spacing so visual content feels materially different from reading and directory pages.</p>
+              <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em]">A slower, more editorial way to browse image-led work.</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>The page now reads more like a curated feature surface, with stronger visual emphasis, quieter metadata, and spacing that gives each image card more presence.</p>
+              <form className="mt-7 flex max-w-md items-center gap-3" action={taskConfig?.route || '#'}>
+                <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-full px-4 text-sm ${ui.input}`}>
+                  <option value="all">All categories</option>
+                  {CATEGORY_OPTIONS.map((item) => (
+                    <option key={item.slug} value={item.slug}>{item.name}</option>
+                  ))}
+                </select>
+                <button type="submit" className={`h-11 rounded-full px-5 text-sm font-medium ${ui.button}`}>Filter</button>
+              </form>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.panel}`} />
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.soft}`} />
-              <div className={`col-span-2 min-h-[120px] rounded-[2rem] ${ui.panel}`} />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
+                <p className="text-sm font-semibold text-white/90">Featured framing</p>
+                <p className={`mt-3 text-sm leading-7 ${ui.muted}`}>Cards now lead with artwork first, using taller covers and calmer metadata.</p>
+              </div>
+              <div className={`rounded-[2rem] p-6 ${ui.soft}`}>
+                <p className="text-sm font-semibold text-white/90">Editorial rhythm</p>
+                <p className={`mt-3 text-sm leading-7 ${ui.muted}`}>The layout borrows from article-style pacing instead of a dense generic grid.</p>
+              </div>
+              <div className={`sm:col-span-2 rounded-[2rem] p-6 ${ui.panel}`}>
+                <p className="text-sm font-semibold text-white/90">Built for discovery</p>
+                <p className={`mt-3 text-sm leading-7 ${ui.muted}`}>Visitors can scan visually, filter quickly, and move into detail pages with less friction.</p>
+              </div>
             </div>
           </section>
         ) : null}
@@ -189,11 +207,23 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'profile-creator' || layoutKey === 'profile-business' ? (
           <section className={`mb-12 rounded-[2.2rem] p-8 shadow-[0_24px_70px_rgba(15,23,42,0.1)] ${ui.panel}`}>
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <div className={`min-h-[240px] rounded-[2rem] ${ui.soft}`} />
+              <div className={`flex min-h-[240px] flex-col justify-end rounded-[2rem] p-6 ${ui.soft}`}>
+                <p className={`text-xs uppercase tracking-[0.24em] ${ui.muted}`}>Profile spotlight</p>
+                <p className="mt-3 text-2xl font-semibold text-foreground">Identity-first cards for creators, businesses, and branded profiles.</p>
+              </div>
               <div>
                 <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
                 <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Profiles with stronger identity, trust, and reputation cues.</h1>
-                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout prioritizes the person or business surface first, then lets the feed continue below without borrowing the same visual logic used by articles or listings.</p>
+                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout borrows from editorial feature pages so each profile feels introduced, not merely listed.</p>
+                <form className="mt-7 flex max-w-md items-center gap-3" action={taskConfig?.route || '#'}>
+                  <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-full px-4 text-sm ${ui.input}`}>
+                    <option value="all">All categories</option>
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <option key={item.slug} value={item.slug}>{item.name}</option>
+                    ))}
+                  </select>
+                  <button type="submit" className={`h-11 rounded-full px-5 text-sm font-medium ${ui.button}`}>Filter</button>
+                </form>
               </div>
             </div>
           </section>

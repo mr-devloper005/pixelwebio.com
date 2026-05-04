@@ -9,7 +9,6 @@ import { SITE_CONFIG, type TaskConfig } from "@/lib/site-config";
 import { siteContent } from "@/config/site.content";
 import { SITE_THEME } from "@/config/site.theme";
 
-const FALLBACK_IMAGE = "/placeholder.svg?height=1400&width=2400";
 
 const heroClasses = {
   'search-first': {
@@ -61,7 +60,7 @@ const heroClasses = {
 export function HeroSection({ images, tasks }: { images: string[]; tasks: TaskConfig[] }) {
   const slides = useMemo(() => {
     const valid = images.filter(Boolean);
-    return valid.length ? valid.slice(0, 4) : [FALLBACK_IMAGE];
+    return valid.length ? valid.slice(0, 4) : [];
   }, [images]);
 
   const [activeIndex, setActiveIndex] = useState(0);

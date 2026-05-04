@@ -30,27 +30,12 @@ function getMeta(post: SitePost) {
   }
 }
 
-const fallbackImages = [
-  'https://images.unsplash.com/photo-1554048612-b6a482bc67e5?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=900&q=80',
-]
-
 function pickImage(post: SitePost | undefined, index: number) {
   if (post) {
     const real = getImage(post)
     if (real && !real.includes('placeholder')) return real
   }
-  return fallbackImages[index % fallbackImages.length]
+  return '/placeholder.svg?height=900&width=1400'
 }
 
 
@@ -133,65 +118,70 @@ function GalleryView({ posts, category }: { posts: SitePost[]; category?: string
                     Meet creators
                   </Link>
                 </div>
-                              </div>
+                <div className="mt-8 grid grid-cols-3 gap-3">
+                  {[
+                    { v: `${total}+`, l: 'Galleries' },
+                    { v: '24', l: 'Categories' },
+                    { v: '4.9★', l: 'Avg rating' },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-xl border border-amber-100 bg-white p-3 text-center shadow-sm">
+                      <p className="text-xl font-black text-slate-900">{s.v}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{s.l}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                {items.slice(0, 6).map((it, i) => (
+                  <div
+                    key={it.key}
+                    className={`relative overflow-hidden rounded-2xl border-2 border-white shadow-lg ${
+                      i === 0 ? 'col-span-2 row-span-2 h-full' : 'h-32'
+                    }`}
+                  >
+                    <ContentImage src={it.image} alt={it.title} fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* FILTERS */}
-        <section className="sticky top-20 z-30 border-y border-amber-100 bg-white/95 backdrop-blur">
-          <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-4 sm:px-6 lg:px-8">
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-500">
-              <Filter className="h-3 w-3" /> Filter:
-            </span>
-            {categories.map((c) => {
-              const active = (category || 'all').toLowerCase() === c.toLowerCase()
-              const href = c === 'All' ? '/images' : `/images?category=${c.toLowerCase()}`
-              return (
-                <Link
-                  key={c}
-                  href={href}
-                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-                    active
-                      ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow'
-                      : 'border border-amber-200 bg-white text-slate-700 hover:bg-amber-50'
-                  }`}
-                >
-                  {c}
-                </Link>
-              )
-            })}
-            <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-slate-500">
-              <Grid3x3 className="h-3 w-3" /> {items.length} results
-            </span>
-          </div>
-        </section>
-
-        {/* GALLERY GRID */}
+        
+        {/* MASONRY GRID */}
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
             {items.map((it, i) => (
               <Link
                 key={it.key}
                 href={it.href}
-                className="overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm"
+                className="group relative mb-5 block break-inside-avoid overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="aspect-square overflow-hidden">
+                <div className="relative">
                   <img
                     src={it.image}
                     alt={it.title}
-                    className="h-full w-full object-cover"
+                    className={`w-full object-cover transition duration-500 group-hover:scale-105 ${
+                      i % 4 === 0 ? 'h-96' : i % 3 === 0 ? 'h-64' : 'h-80'
+                    }`}
                   />
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-[10px] font-bold text-amber-700">
-                      {it.category}
-                    </span>
-                    <span className="text-xs text-slate-500">{it.likes} likes</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-[10px] font-bold uppercase text-amber-600 backdrop-blur">
+                    {it.category}
+                  </span>
+                  <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
+                    <p className="text-base font-black text-white drop-shadow">{it.title}</p>
+                    <div className="mt-1 flex items-center justify-between text-xs text-white/90">
+                      <span className="inline-flex items-center gap-1">
+                        <User className="h-3 w-3" /> {it.author}
+                      </span>
+                      <span className="inline-flex items-center gap-3">
+                        <span className="inline-flex items-center gap-1"><Heart className="h-3 w-3" /> {it.likes}</span>
+                        <span className="inline-flex items-center gap-1"><Eye className="h-3 w-3" /> view</span>
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-sm mb-1 line-clamp-2">{it.title}</h3>
-                  <p className="text-xs text-slate-600">{it.author}</p>
                 </div>
               </Link>
             ))}
@@ -255,6 +245,8 @@ function CreatorsView({ posts, category }: { posts: SitePost[]; category?: strin
     }
   })
 
+  const featured = items.slice(0, 3)
+  const others = items.slice(3)
   const total = filteredPosts.length
   
   // Get unique specialties from real posts (using role)
@@ -287,80 +279,142 @@ function CreatorsView({ posts, category }: { posts: SitePost[]; category?: strin
                   Discover {total}+ talented photographers, designers, and visual storytellers.
                   Connect, collaborate, or hire — your next creative partner is here.
                 </p>
-                              </div>
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <Link
+                    href="/create/profile"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-6 py-3 text-sm font-bold text-white shadow-md hover:opacity-90"
+                  >
+                    Become a creator <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/images"
+                    className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-6 py-3 text-sm font-bold text-slate-800 hover:bg-amber-50"
+                  >
+                    Browse galleries
+                  </Link>
+                </div>
+              </div>
 
-                          </div>
+              <div className="relative h-[420px]">
+                {featured.map((c, i) => (
+                  <div
+                    key={c.key}
+                    className={`absolute overflow-hidden rounded-2xl border-4 border-white shadow-2xl ${
+                      i === 0
+                        ? 'left-0 top-0 h-72 w-56 rotate-[-6deg]'
+                        : i === 1
+                        ? 'right-0 top-8 h-80 w-60 rotate-[5deg]'
+                        : 'bottom-0 left-1/2 h-64 w-52 -translate-x-1/2 rotate-[-2deg]'
+                    }`}
+                  >
+                    <img src={c.image} alt={c.name} className="h-full w-full object-cover" />
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                      <p className="text-sm font-bold text-white">{c.name}</p>
+                      <p className="text-[10px] text-amber-300">{c.role}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* FILTERS */}
-        <section className="sticky top-20 z-30 border-y border-amber-100 bg-white/95 backdrop-blur">
-          <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-4 sm:px-6 lg:px-8">
-            <span className="inline-flex shrink-0 items-center gap-1 text-xs font-bold uppercase tracking-wider text-slate-500">
-              <Filter className="h-3 w-3" /> Specialty:
-            </span>
-            {specialties.map((c) => {
-              const active = (category || 'all').toLowerCase() === c.toLowerCase()
-              const href = c === 'All' ? '/profile' : `/profile?category=${c.toLowerCase()}`
-              return (
-                <Link
-                  key={c}
-                  href={href}
-                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold transition ${
-                    active
-                      ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow'
-                      : 'border border-amber-200 bg-white text-slate-700 hover:bg-amber-50'
-                  }`}
-                >
-                  {c}
-                </Link>
-              )
-            })}
-            <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-slate-500">
-              <Users className="h-3 w-3" /> {items.length} creators
-            </span>
-          </div>
-        </section>
-
-        {/* PROFILES GRID */}
+        
+        {/* FEATURED CREATORS */}
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {items.map((c) => (
+          <div className="mb-8 flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-amber-500" />
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-600">Featured creators</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {featured.map((c) => (
               <Link
                 key={c.key}
                 href={c.href}
-                className="group relative overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:border-amber-300"
+                className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="relative h-32 overflow-hidden">
+                  <img src={c.coverImage} alt="" className="h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-amber-500/40 to-transparent" />
+                </div>
+                <div className="relative px-6 pb-6">
                   <img
                     src={c.image}
                     alt={c.name}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="-mt-10 h-20 w-20 rounded-2xl border-4 border-white object-cover shadow-md"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <h3 className="truncate font-bold text-white text-lg">{c.name}</h3>
-                    <p className="text-xs text-amber-200 font-medium">{c.role}</p>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-xs text-slate-600">
-                      <MapPin className="h-3 w-3" />
-                      <span className="truncate">{c.location}</span>
+                  <div className="mt-4 flex items-start justify-between">
+                    <div>
+                      <h3 className="text-lg font-black text-slate-900">{c.name}</h3>
+                      <p className="text-xs font-semibold text-amber-600">{c.role}</p>
                     </div>
-                    <div className="flex items-center gap-2 text-xs">
-                      <Users className="h-3 w-3 text-amber-600" />
-                      <span className="font-semibold text-amber-600">{c.followers}</span>
-                    </div>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-[10px] font-bold text-amber-600">
+                      <Star className="h-3 w-3 fill-current" /> Pro
+                    </span>
                   </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500">View profile</span>
-                    <ArrowRight className="h-4 w-4 text-amber-600 transition-transform group-hover:translate-x-1" />
+                  <p className="mt-2 inline-flex items-center gap-1 text-xs text-slate-500">
+                    <MapPin className="h-3 w-3" /> {c.location}
+                  </p>
+                  <p className="mt-3 text-xs leading-6 text-slate-600">{c.specialty}</p>
+                  <div className="mt-4 flex items-center justify-between border-t border-amber-100 pt-4 text-xs">
+                    <div>
+                      <p className="font-black text-slate-900">{c.followers}</p>
+                      <p className="text-slate-500">Followers</p>
+                    </div>
+                    <div>
+                      <p className="font-black text-slate-900">{c.shoots}</p>
+                      <p className="text-slate-500">Shoots</p>
+                    </div>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-[10px] font-bold text-white">
+                      View <ArrowRight className="h-3 w-3" />
+                    </span>
                   </div>
                 </div>
               </Link>
             ))}
+          </div>
+        </section>
+
+        {/* ALL CREATORS GRID */}
+        <section className="bg-[#fff5e3]">
+          <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div className="mb-8">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-600">All creators</p>
+              <h2 className="mt-2 text-3xl font-black text-slate-900">Browse the network</h2>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {others.map((c) => (
+                <Link
+                  key={c.key}
+                  href={c.href}
+                  className="group rounded-2xl border border-amber-100 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={c.image}
+                      alt={c.name}
+                      className="h-14 w-14 rounded-xl border-2 border-amber-100 object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate font-bold text-slate-900">{c.name}</h3>
+                      <p className="truncate text-xs font-semibold text-amber-600">{c.role}</p>
+                    </div>
+                  </div>
+                  <p className="mt-3 inline-flex items-center gap-1 text-xs text-slate-500">
+                    <MapPin className="h-3 w-3" /> {c.location}
+                  </p>
+                  <p className="mt-2 text-xs text-slate-500">{c.specialty}</p>
+                  <div className="mt-4 flex items-center justify-between border-t border-amber-100 pt-3 text-[11px]">
+                    <span className="font-bold text-slate-700">
+                      {c.followers} <span className="font-normal text-slate-500">followers</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 font-bold text-amber-600 group-hover:underline">
+                      View <ArrowRight className="h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 

@@ -6,39 +6,13 @@ import { ContentImage } from "@/components/shared/content-image";
 import { TaskPostCard } from "@/components/shared/task-post-card";
 import { Button } from "@/components/ui/button";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
+import { RichContent, formatRichHtml } from "@/components/shared/rich-content";
 import { buildPostUrl } from "@/lib/task-data";
 import { buildPostMetadata, buildTaskMetadata } from "@/lib/seo";
 import { fetchTaskPostBySlug, fetchTaskPosts } from "@/lib/task-data";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const revalidate = 3;
-
-const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-
-const sanitizeRichHtml = (html: string) =>
-  html
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
-    .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, "")
-    .replace(/<object[^>]*>[\s\S]*?<\/object>/gi, "")
-    .replace(/\son[a-z]+\s*=\s*(['"]).*?\1/gi, "")
-    .replace(/\shref\s*=\s*(['"])javascript:.*?\1/gi, ' href="#"');
-
-const formatRichHtml = (raw?: string | null, fallback = "Profile details will appear here once available.") => {
-  const source = typeof raw === "string" ? raw.trim() : "";
-  if (!source) return `<p>${escapeHtml(fallback)}</p>`;
-  if (/<[a-z][\s\S]*>/i.test(source)) return sanitizeRichHtml(source);
-  return source
-    .split(/\n{2,}/)
-    .map((paragraph) => `<p>${escapeHtml(paragraph.replace(/\n/g, " ").trim())}</p>`)
-    .join("");
-};
 
 export async function generateStaticParams() {
   const posts = await fetchTaskPosts("profile", 50);
@@ -65,6 +39,7 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
   if (!post) {
     notFound();
   }
+
   const content = (post.content || {}) as Record<string, any>;
   const logoUrl = typeof content.logo === "string" ? content.logo : undefined;
   const brandName =
@@ -78,7 +53,7 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
     (content.description as string | undefined) ||
     post.summary ||
     "Profile details will appear here once available.";
-  const descriptionHtml = formatRichHtml(description);
+  const descriptionHtml = formatRichHtml(description, "Profile details will appear here once available.");
   const suggestedArticles = await fetchTaskPosts("article", 6);
   const baseUrl = SITE_CONFIG.baseUrl.replace(/\/$/, "");
   const breadcrumbData = {
@@ -107,41 +82,44 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf8_0%,#f5efe5_100%)]">
       <NavbarShell />
       <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={breadcrumbData} />
-        <section className="rounded-3xl border border-border/60 bg-white/90 p-8 shadow-sm md:p-12">
-          <div className="grid gap-8 md:grid-cols-[200px_1fr] md:items-start">
-            <div className="flex justify-center md:justify-start">
-              <div className="relative h-36 w-36 overflow-hidden rounded-full border border-border/70 bg-muted">
-                {logoUrl ? (
-                  <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="144px" intrinsicWidth={144} intrinsicHeight={144} />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-muted-foreground">
-                    {post.title.slice(0, 1).toUpperCase()}
-                  </div>
-                )}
+        <section className="overflow-hidden rounded-[2rem] border border-[#dcc8b7] bg-white/90 shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
+          <div className="grid gap-0 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="border-b border-[#eadccf] bg-[radial-gradient(circle_at_top,#f3d8bb_0%,transparent_58%),linear-gradient(180deg,#f8efe3_0%,#f3ebdf_100%)] p-8 lg:border-b-0 lg:border-r">
+              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#7a5b4c]">Profile detail</p>
+              <div className="mt-8 flex justify-center lg:justify-start">
+                <div className="relative h-40 w-40 overflow-hidden rounded-[2rem] border border-[#d9c8b9] bg-white shadow-sm">
+                  {logoUrl ? (
+                    <ContentImage src={logoUrl} alt={post.title} fill className="object-cover" sizes="160px" intrinsicWidth={160} intrinsicHeight={160} />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-4xl font-semibold text-[#7a5b4c]">
+                      {post.title.slice(0, 1).toUpperCase()}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground sm:text-4xl">{brandName}</h1>
-              {domain ? (
-                <p className="mt-1 text-sm font-medium text-muted-foreground">{domain}</p>
-              ) : null}
-              <article
-                className="article-content prose prose-slate mt-6 max-w-2xl text-base leading-relaxed prose-p:my-4 prose-a:text-primary prose-a:underline prose-strong:font-semibold"
-                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-              />
-              {website ? (
-                <div className="mt-8">
-                  <Button asChild size="lg" className="px-7 text-base">
+              <div className="mt-8 space-y-4 text-sm text-[#6e5547]">
+                {domain ? <p>{domain}</p> : null}
+                <p>Built for clearer brand presence, faster trust signals, and a more editorial introduction than the previous plain profile block.</p>
+                {website ? (
+                  <Button asChild size="lg" className="rounded-full bg-[#241711] px-7 text-base text-[#fff3e4] hover:bg-[#3a241b]">
                     <Link href={website} target="_blank" rel="noopener noreferrer">
-                      Visit Official Site
+                      Visit official site
                     </Link>
                   </Button>
-                </div>
-              ) : null}
+                ) : null}
+              </div>
+            </div>
+            <div className="p-8 md:p-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-[#7a5b4c]">About</p>
+              <h1 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#241711] sm:text-5xl">{brandName}</h1>
+              <RichContent
+                html={descriptionHtml}
+                className="mt-6 max-w-2xl text-[#3d2a21] prose-p:text-[#3d2a21] prose-a:text-[#7b4b33]"
+              />
             </div>
           </div>
         </section>
@@ -149,8 +127,8 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
         {suggestedArticles.length ? (
           <section className="mt-12">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">Suggested articles</h2>
-              <Link href="/articles" className="text-sm font-medium text-primary hover:underline">
+              <h2 className="text-xl font-semibold text-[#241711]">Suggested articles</h2>
+              <Link href="/articles" className="text-sm font-medium text-[#7b4b33] hover:underline">
                 View all
               </Link>
             </div>
@@ -164,21 +142,21 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
                 />
               ))}
             </div>
-            <nav className="mt-6 rounded-2xl border border-border bg-card/60 p-4">
-              <p className="text-sm font-semibold text-foreground">Related links</p>
+            <nav className="mt-6 rounded-2xl border border-[#dcc8b7] bg-white/80 p-4">
+              <p className="text-sm font-semibold text-[#241711]">Related links</p>
               <ul className="mt-2 space-y-2 text-sm">
                 {suggestedArticles.slice(0, 3).map((article) => (
                   <li key={`related-${article.id}`}>
                     <Link
                       href={buildPostUrl("article", article.slug)}
-                      className="text-primary underline-offset-4 hover:underline"
+                      className="text-[#7b4b33] underline-offset-4 hover:underline"
                     >
                       {article.title}
                     </Link>
                   </li>
                 ))}
                 <li>
-                  <Link href="/profile" className="text-primary underline-offset-4 hover:underline">
+                  <Link href="/profile" className="text-[#7b4b33] underline-offset-4 hover:underline">
                     Browse all profiles
                   </Link>
                 </li>

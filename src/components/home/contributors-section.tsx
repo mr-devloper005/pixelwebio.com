@@ -4,10 +4,9 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ProfileCard } from '@/components/shared/cards'
-import { mockUsers } from '@/data/mock-data'
 
 export function ContributorsSection() {
-  const topContributors = mockUsers.filter(u => u.isVerified).slice(0, 4)
+  const topContributors: any[] = []
 
   return (
     <section className="border-b border-border py-16">
@@ -29,19 +28,18 @@ export function ContributorsSection() {
           </Button>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {topContributors.map((user) => (
-            <ProfileCard key={user.id} user={user} />
-          ))}
-        </div>
-
-        <div className="mt-8 text-center sm:hidden">
-          <Button variant="outline" asChild>
-            <Link href="/community">
-              View All Contributors
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="rounded-2xl border border-border bg-card p-8 text-center">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">No contributors yet</h3>
+            <p className="text-muted-foreground">
+              Be the first to contribute and build our community.
+            </p>
+            <Button asChild>
+              <Link href="/dashboard">
+                Start Contributing
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

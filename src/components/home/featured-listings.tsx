@@ -4,10 +4,9 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ListingCard } from '@/components/shared/cards'
-import { mockListings } from '@/data/mock-data'
 
 export function FeaturedListings() {
-  const featuredListings = mockListings.filter(l => l.isFeatured).slice(0, 4)
+  const featuredListings: any[] = []
 
   return (
     <section className="border-b border-border py-16">
@@ -29,19 +28,18 @@ export function FeaturedListings() {
           </Button>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredListings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
-
-        <div className="mt-8 text-center sm:hidden">
-          <Button variant="outline" asChild>
-            <Link href="/listings">
-              View All Listings
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="rounded-2xl border border-border bg-card p-8 text-center">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">No featured listings yet</h3>
+            <p className="text-muted-foreground">
+              Start creating listings to see them featured here.
+            </p>
+            <Button asChild>
+              <Link href="/dashboard/listings/new">
+                Create First Listing
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

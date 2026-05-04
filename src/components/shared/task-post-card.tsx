@@ -7,6 +7,7 @@ import type { TaskKey } from '@/lib/site-config'
 import { SITE_THEME } from '@/config/site.theme'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { TASK_POST_CARD_OVERRIDE_ENABLED, TaskPostCardOverride } from '@/overrides/task-post-card'
+import { decodeHtmlEntities } from '@/components/shared/rich-content'
 
 type ListingContent = {
   location?: string
@@ -16,7 +17,7 @@ type ListingContent = {
 }
 
 const stripHtml = (value?: string | null) =>
-  (value || '')
+  decodeHtmlEntities(value || '')
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
     .replace(/<\/?[^>]+>/g, ' ')
@@ -27,7 +28,7 @@ const getExcerpt = (value?: string | null, maxLength = 140) => {
   const text = stripHtml(value)
   if (!text) return ''
   if (text.length <= maxLength) return text
-  return `${text.slice(0, maxLength).trimEnd()}…`
+  return `${text.slice(0, maxLength).trimEnd()}...`
 }
 
 const getContent = (post: SitePost): ListingContent => {
@@ -51,7 +52,7 @@ const getImageUrl = (post: SitePost, content: ListingContent) => {
   const contentLogo = typeof contentAny.logo === 'string' ? contentAny.logo : null
   if (contentLogo) return contentLogo
 
-  return '/placeholder.svg?height=640&width=960'
+  return ''
 }
 
 const cardStyles = {
@@ -185,18 +186,25 @@ export function TaskPostCard({
 
   return (
     <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${visualVariant.frame}`}>
-      <div className={`relative ${imageAspect} overflow-hidden bg-[#ede2dc]`}>
+      <div className={`relative ${variant === 'image' ? 'aspect-[5/6]' : variant === 'profile' ? 'aspect-[6/5]' : imageAspect} overflow-hidden bg-[#ede2dc]`}>
         <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80" />
+        <div className={`absolute inset-0 ${variant === 'image' ? 'bg-gradient-to-t from-black/65 via-black/10 to-transparent' : variant === 'profile' ? 'bg-gradient-to-t from-black/55 via-transparent to-transparent' : 'bg-gradient-to-t from-black/35 via-transparent to-transparent'} opacity-80`} />
         <span className={`absolute left-4 top-4 inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${visualVariant.badge}`}>
           <Tag className="h-3.5 w-3.5" />
           {category}
         </span>
+        {variant === 'image' ? (
+          <div className="absolute inset-x-4 bottom-4">
+            <p className="line-clamp-2 text-xl font-semibold leading-tight text-white drop-shadow-sm">{post.title}</p>
+          </div>
+        ) : null}
         {variant === 'pdf' && <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/88 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-950 shadow"><FileText className="h-3.5 w-3.5" />PDF</span>}
       </div>
-      <div className={`flex flex-1 flex-col p-5 ${compact ? 'py-4' : ''}`}>
-        <h3 className={`line-clamp-2 font-semibold leading-snug ${variant === 'article' ? 'text-[1.35rem]' : 'text-lg'} ${visualVariant.title}`}>{post.title}</h3>
-        <p className={`mt-3 text-sm leading-7 ${variant === 'article' ? 'line-clamp-4' : 'line-clamp-3'} ${visualVariant.muted}`}>{getExcerpt(content.description || post.summary) || 'Explore this post.'}</p>
+      <div className={`flex flex-1 flex-col p-5 ${compact ? 'py-4' : ''} ${variant === 'image' ? 'pt-4' : ''}`}>
+        {variant !== 'image' ? (
+          <h3 className={`line-clamp-2 font-semibold leading-snug ${variant === 'article' ? 'text-[1.35rem]' : 'text-lg'} ${visualVariant.title}`}>{post.title}</h3>
+        ) : null}
+        <p className={`${variant === 'image' ? '' : 'mt-3 '}text-sm leading-7 ${variant === 'article' ? 'line-clamp-4' : variant === 'profile' ? 'line-clamp-4' : 'line-clamp-3'} ${visualVariant.muted}`}>{getExcerpt(content.description || post.summary, variant === 'image' ? 110 : 140) || 'Explore this post.'}</p>
         <div className="mt-auto pt-4">
           {content.location && <div className={`inline-flex items-center gap-1 text-xs ${visualVariant.muted}`}><MapPin className="h-3.5 w-3.5" />{content.location}</div>}
           {content.email && <div className={`mt-2 inline-flex items-center gap-1 text-xs ${visualVariant.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</div>}
