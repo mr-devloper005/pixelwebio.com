@@ -52,12 +52,18 @@ export function ArticleCard({ article, featured = false }: { article: Article; f
             'relative overflow-hidden bg-muted',
             featured ? 'aspect-[16/9] sm:aspect-[2/1]' : 'aspect-video'
           )}>
-            <Image
-              src={article.coverImage || '/placeholder.svg?height=720&width=1280'}
-              alt={article.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-            />
+            {article.coverImage ? (
+              <Image
+                src={article.coverImage}
+                alt={article.title}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <div className="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
+                <span>No image available</span>
+              </div>
+            )}
             {article.isFeatured && (
               <Badge className="absolute left-3 top-3 bg-accent text-accent-foreground">
                 Featured

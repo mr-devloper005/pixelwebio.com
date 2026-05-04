@@ -2,7 +2,6 @@
 
 import { useMemo, useState, type CSSProperties, type ImgHTMLAttributes } from "react";
 
-const PLACEHOLDER = "/placeholder.svg?height=900&width=1400";
 
 type ContentImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "alt"> & {
   src?: string;
@@ -28,7 +27,7 @@ export function ContentImage({
   intrinsicHeight,
   ...props
 }: ContentImageProps) {
-  const initialSrc = typeof src === "string" && src.trim() ? src : PLACEHOLDER;
+  const initialSrc = typeof src === "string" && src.trim() ? src : "";
   const [currentSrc, setCurrentSrc] = useState(initialSrc);
 
   const width = intrinsicWidth ?? (fill ? 1600 : 800);
@@ -59,8 +58,8 @@ export function ContentImage({
       decoding="async"
       fetchPriority={priority ? "high" : fetchPriority || "auto"}
       onError={() => {
-        if (currentSrc !== PLACEHOLDER) {
-          setCurrentSrc(PLACEHOLDER);
+        if (currentSrc !== "") {
+          setCurrentSrc("");
         }
       }}
     />

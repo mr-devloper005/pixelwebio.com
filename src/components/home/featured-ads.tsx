@@ -4,10 +4,9 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClassifiedAdCard } from '@/components/shared/cards'
-import { mockClassifiedAds } from '@/data/mock-data'
 
 export function FeaturedAds() {
-  const featuredAds = mockClassifiedAds.filter(a => a.isFeatured).slice(0, 4)
+  const featuredAds: any[] = []
 
   return (
     <section className="border-b border-border py-16">
@@ -29,19 +28,18 @@ export function FeaturedAds() {
           </Button>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredAds.map((ad) => (
-            <ClassifiedAdCard key={ad.id} ad={ad} />
-          ))}
-        </div>
-
-        <div className="mt-8 text-center sm:hidden">
-          <Button variant="outline" asChild>
-            <Link href="/classifieds">
-              View All Classifieds
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="rounded-2xl border border-border bg-card p-8 text-center">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-foreground">No featured classifieds yet</h3>
+            <p className="text-muted-foreground">
+              Start creating classified ads to see them featured here.
+            </p>
+            <Button asChild>
+              <Link href="/dashboard/ads/new">
+                Create First Ad
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>

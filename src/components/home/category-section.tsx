@@ -14,7 +14,6 @@ import {
   Bike,
   Building
 } from 'lucide-react'
-import { mockCategories } from '@/data/mock-data'
 
 const iconMap: Record<string, React.ElementType> = {
   Monitor,
@@ -28,6 +27,19 @@ const iconMap: Record<string, React.ElementType> = {
   Bike,
   Building
 }
+
+const defaultCategories = [
+  { id: '1', name: 'Technology', slug: 'technology', icon: 'Monitor', count: 0 },
+  { id: '2', name: 'Design', slug: 'design', icon: 'Palette', count: 0 },
+  { id: '3', name: 'Business', slug: 'business', icon: 'Briefcase', count: 0 },
+  { id: '4', name: 'Lifestyle', slug: 'lifestyle', icon: 'Heart', count: 0 },
+  { id: '5', name: 'Food', slug: 'food', icon: 'UtensilsCrossed', count: 0 },
+  { id: '6', name: 'Services', slug: 'services', icon: 'Wrench', count: 0 },
+  { id: '7', name: 'Mobile', slug: 'mobile', icon: 'Smartphone', count: 0 },
+  { id: '8', name: 'Real Estate', slug: 'real-estate', icon: 'Home', count: 0 },
+  { id: '9', name: 'Transport', slug: 'transport', icon: 'Bike', count: 0 },
+  { id: '10', name: 'Commercial', slug: 'commercial', icon: 'Building', count: 0 }
+]
 
 export function CategorySection() {
   return (
@@ -43,7 +55,7 @@ export function CategorySection() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
-          {mockCategories.map((category, index) => {
+          {defaultCategories.map((category, index) => {
             const Icon = iconMap[category.icon] || Monitor
             return (
               <motion.div
