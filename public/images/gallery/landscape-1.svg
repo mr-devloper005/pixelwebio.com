@@ -1,0 +1,63 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#FFE4B5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mountain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5D4E37;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="ground" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#006400;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sun">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFA500;stop-opacity:0.8" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="800" height="600" fill="url(#sky)" />
+  
+  <!-- Sun -->
+  <circle cx="600" cy="120" r="40" fill="url(#sun)" />
+  
+  <!-- Mountains -->
+  <polygon points="0,400 200,200 400,350" fill="url(#mountain)" opacity="0.9" />
+  <polygon points="300,450 500,250 700,400" fill="url(#mountain)" opacity="0.8" />
+  <polygon points="600,500 800,300 800,500" fill="url(#mountain)" opacity="0.7" />
+  
+  <!-- Ground/foreground -->
+  <rect x="0" y="450" width="800" height="150" fill="url(#ground)" />
+  
+  <!-- Trees -->
+  <g fill="#2F4F2F" opacity="0.8">
+    <ellipse cx="100" cy="430" rx="30" ry="60" />
+    <ellipse cx="250" cy="440" rx="25" ry="50" />
+    <ellipse cx="650" cy="435" rx="35" ry="55" />
+    <ellipse cx="750" cy="445" rx="20" ry="40" />
+  </g>
+  
+  <!-- Clouds -->
+  <g fill="white" opacity="0.6">
+    <ellipse cx="150" cy="100" rx="40" ry="20" />
+    <ellipse cx="180" cy="95" rx="50" ry="25" />
+    <ellipse cx="210" cy="100" rx="35" ry="18" />
+    
+    <ellipse cx="450" cy="80" rx="45" ry="22" />
+    <ellipse cx="480" cy="75" rx="55" ry="28" />
+    <ellipse cx="510" cy="80" rx="40" ry="20" />
+  </g>
+  
+  <!-- Photography frame -->
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="white" stroke-width="3" opacity="0.4" rx="8" />
+  
+  <!-- Camera metadata -->
+  <g fill="white" opacity="0.8" font-family="monospace" font-size="11">
+    <text x="50" y="580">Sony A7R IV • 24-70mm f/2.8 • ISO 200 • 1/125s • f/8</text>
+    <text x="50" y="25">Mountain Landscape • Sunrise • 2024</text>
+  </g>
+</svg>

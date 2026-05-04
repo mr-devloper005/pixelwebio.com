@@ -312,73 +312,105 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
               <>
                 {!isBookmark ? (
                   <div className={cn(isClassified ? "w-full" : "")}>
-                    <TaskImageCarousel images={images} />
+                    {/* GALLERY TYPE HERO */}
+                    <div className="relative overflow-hidden rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50 to-orange-50">
+                      {images.length > 0 ? (
+                        <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
+                          {/* Main Image */}
+                          <div className="sm:col-span-2 lg:col-span-2">
+                            <div className="aspect-square overflow-hidden rounded-2xl">
+                              <img
+                                src={images[0]}
+                                alt={post.title || 'Main image'}
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          </div>
+                          {/* Thumbnail Grid */}
+                          <div className="grid gap-2 lg:col-span-1">
+                            {images.slice(1, 4).map((img, i) => (
+                              <div key={i} className="aspect-square overflow-hidden rounded-xl">
+                                <img
+                                  src={img}
+                                  alt={`Thumbnail ${i + 1}`}
+                                  className="h-full w-full object-cover hover:scale-105 transition duration-300"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex h-96 items-center justify-center">
+                          <div className="text-center">
+                            <div className="mx-auto mb-4 h-20 w-20 rounded-full bg-amber-200 flex items-center justify-center">
+                              <span className="text-amber-600 text-2xl">📷</span>
+                            </div>
+                            <p className="text-lg font-medium text-amber-700">No Images Available</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : null}
 
+                {/* UNIQUE HERO DETAILS */}
                 <div className={cn(isClassified ? "mx-auto w-full max-w-4xl" : "mt-6")}>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                    <Badge variant="secondary" className="inline-flex items-center gap-1">
-                      <Tag className="h-3.5 w-3.5" />
-                      {category}
-                    </Badge>
-                    {location && (
-                      <span className="inline-flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {location}
-                      </span>
-                    )}
+                  <div className="rounded-3xl border border-amber-100 bg-gradient-to-br from-amber-50 to-orange-50 p-6 shadow-lg">
+                    <div className="flex flex-col lg:flex-row gap-6 items-start">
+                      {/* Logo Section */}
+                      <div className="flex-shrink-0">
+                        <div className="relative">
+                          <div className="h-24 w-24 rounded-2xl border-4 border-white bg-white shadow-lg overflow-hidden">
+                            {content.logo ? (
+                              <img
+                                src={content.logo}
+                                alt={`${post.title} logo`}
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="h-full w-full bg-gradient-to-br from-amber-200 to-orange-200 flex items-center justify-center">
+                                <span className="text-3xl">📷</span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full bg-amber-500 text-white flex items-center justify-center text-sm font-bold shadow-lg">
+                            ✓
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <Badge className="inline-flex items-center gap-1 bg-amber-500 text-white border-amber-500">
+                            <Tag className="h-3.5 w-3.5" />
+                            {category}
+                          </Badge>
+                          {location && (
+                            <Badge variant="outline" className="inline-flex items-center gap-1 border-amber-300 text-amber-700">
+                              <MapPin className="h-3.5 w-3.5" />
+                              {location}
+                            </Badge>
+                          )}
+                          <Badge variant="secondary" className="bg-amber-100 text-amber-700">
+                            Featured
+                          </Badge>
+                        </div>
+                        
+                        <h1 className="text-3xl lg:text-4xl font-black text-slate-900 leading-tight mb-4">
+                          {post.title}
+                        </h1>
+                        
+                                                
+                        <RichContent html={descriptionHtml} className="prose prose-amber max-w-none" />
+                      </div>
+                    </div>
                   </div>
-                  <h1 className="mt-4 text-3xl font-semibold text-foreground">{post.title}</h1>
-                  <RichContent html={descriptionHtml} className="mt-3 max-w-3xl" />
                 </div>
               </>
             ) : null}
 
-            {isClassified ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-6">
-                <h2 className="text-lg font-semibold text-foreground">Business details</h2>
-                <div className="mt-4 space-y-3 text-sm text-muted-foreground">
-                  {content.website && (
-                    <div className="flex items-start gap-2">
-                      <Globe className="mt-0.5 h-4 w-4" />
-                      <a
-                        href={content.website}
-                        className="break-all text-foreground hover:underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {content.website}
-                      </a>
-                    </div>
-                  )}
-                  {content.phone && (
-                    <div className="flex items-start gap-2">
-                      <Phone className="mt-0.5 h-4 w-4" />
-                      <span>{content.phone}</span>
-                    </div>
-                  )}
-                  {content.email && (
-                    <div className="flex items-start gap-2">
-                      <Mail className="mt-0.5 h-4 w-4" />
-                      <a
-                        href={`mailto:${content.email}`}
-                        className="break-all text-foreground hover:underline"
-                      >
-                        {content.email}
-                      </a>
-                    </div>
-                  )}
-                  {location && (
-                    <div className="flex items-start gap-2">
-                      <MapPin className="mt-0.5 h-4 w-4" />
-                      <span>{location}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : null}
-
+            
             {content.highlights?.length && !isArticle ? (
               <div className={cn("mt-8 rounded-2xl border border-border bg-card p-6", isClassified ? "mx-auto w-full max-w-4xl" : "")}>
                 <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
@@ -491,14 +523,48 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 </Link>
               )}
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((item) => (
-                <TaskPostCard
-                  key={item.id}
-                  post={item}
-                  href={buildPostUrl(task, item.slug)}
-                />
-              ))}
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {related.map((item, i) => {
+                const content = getContent(item);
+                const imageUrl = item.media?.[0]?.url || content.logo || '';
+                
+                return (
+                  <Link
+                    key={item.id}
+                    href={buildPostUrl(task, item.slug)}
+                    className="group overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-sm transition hover:shadow-lg"
+                  >
+                    <div className="aspect-square overflow-hidden bg-gradient-to-br from-amber-50 to-orange-50">
+                      {imageUrl ? (
+                        <img
+                          src={imageUrl}
+                          alt={item.title || 'Creation'}
+                          className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <div className="text-center">
+                            <div className="mx-auto mb-2 h-12 w-12 rounded-full bg-amber-200 flex items-center justify-center">
+                              <span className="text-amber-600 text-lg">📷</span>
+                            </div>
+                            <p className="text-xs font-medium text-amber-700">No Image</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-[10px] font-bold text-amber-700">
+                          {content.category || 'Uncategorized'}
+                        </span>
+                        <span className="text-xs text-slate-500">♥ 0</span>
+                      </div>
+                      <h3 className="font-bold text-slate-900 text-sm mb-1 line-clamp-2">{item.title || 'Untitled'}</h3>
+                      <p className="text-xs text-slate-600">Creator</p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
             </>
           ) : null}

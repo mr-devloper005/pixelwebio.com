@@ -1,5 +1,34 @@
 import { cn } from "@/lib/utils";
 
+const namedHtmlEntities: Record<string, string> = {
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  quot: '"',
+  apos: "'",
+  nbsp: " ",
+  ndash: "-",
+  mdash: "-",
+  hellip: "...",
+};
+
+export const decodeHtmlEntities = (value: string) =>
+  value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (entity, code) => {
+    const normalizedCode = String(code).toLowerCase();
+
+    if (normalizedCode.startsWith("#x")) {
+      const parsed = Number.parseInt(normalizedCode.slice(2), 16);
+      return Number.isFinite(parsed) ? String.fromCodePoint(parsed) : entity;
+    }
+
+    if (normalizedCode.startsWith("#")) {
+      const parsed = Number.parseInt(normalizedCode.slice(1), 10);
+      return Number.isFinite(parsed) ? String.fromCodePoint(parsed) : entity;
+    }
+
+    return namedHtmlEntities[normalizedCode] ?? entity;
+  });
+
 const escapeHtml = (value: string) =>
   value
     .replace(/&/g, "&amp;")
@@ -20,11 +49,15 @@ const sanitizeRichHtml = (html: string) =>
 export const formatRichHtml = (raw?: string | null, fallback = "Details coming soon.") => {
   const source = typeof raw === "string" ? raw.trim() : "";
   if (!source) return `<p>${escapeHtml(fallback)}</p>`;
-  if (/<[a-z][\s\S]*>/i.test(source)) {
-    return sanitizeRichHtml(source);
+
+  const decodedSource = decodeHtmlEntities(source).trim();
+  const candidate = /<[a-z][\s\S]*>/i.test(decodedSource) ? decodedSource : source;
+
+  if (/<[a-z][\s\S]*>/i.test(candidate)) {
+    return sanitizeRichHtml(candidate);
   }
 
-  return source
+  return decodedSource
     .split(/\n{2,}/)
     .map((paragraph) => `<p>${escapeHtml(paragraph.replace(/\n/g, " ").trim())}</p>`)
     .join("");

@@ -9,31 +9,31 @@ const leadership = [
     name: 'Aditya Sharma',
     role: 'Founder & CEO',
     bio: 'Photographer turned product builder. Obsessed with helping creators look professional online.',
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    photo: '/images/team/aditya.svg',
   },
   {
     name: 'Priya Mehta',
     role: 'Head of Design',
     bio: 'Leads the visual language of Pixelwebio — from typography to gallery layouts.',
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+    photo: '/images/team/priya.svg',
   },
   {
     name: 'Marcus Chen',
     role: 'Engineering Lead',
     bio: 'Keeps the platform fast, reliable, and creator-friendly behind the scenes.',
-    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    photo: '/images/team/marcus.svg',
   },
 ]
 
 const team = [
-  { name: 'Sara Lopez', role: 'Creator Success', city: 'Madrid', photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Daniel Park', role: 'Product Designer', city: 'Seoul', photo: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Olivia Brown', role: 'Frontend Engineer', city: 'London', photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Yuki Tanaka', role: 'Brand Lead', city: 'Tokyo', photo: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Ahmed Khan', role: 'Backend Engineer', city: 'Dubai', photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Emma Wilson', role: 'Community Manager', city: 'New York', photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Jonas Berg', role: 'Growth Lead', city: 'Berlin', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80' },
-  { name: 'Aria Patel', role: 'Content Strategist', city: 'Mumbai', photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80' },
+  { name: 'Sara Lopez', role: 'Creator Success', city: 'Madrid', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Daniel Park', role: 'Product Designer', city: 'Seoul', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Olivia Brown', role: 'Frontend Engineer', city: 'London', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Yuki Tanaka', role: 'Brand Lead', city: 'Tokyo', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Ahmed Khan', role: 'Backend Engineer', city: 'Dubai', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Emma Wilson', role: 'Community Manager', city: 'New York', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Jonas Berg', role: 'Growth Lead', city: 'Berlin', photo: '/placeholder.svg?height=400&width=400' },
+  { name: 'Aria Patel', role: 'Content Strategist', city: 'Mumbai', photo: '/placeholder.svg?height=400&width=400' },
 ]
 
 export default function TeamPage() {

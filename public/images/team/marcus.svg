@@ -1,0 +1,45 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#30CFD0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#330867;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="url(#bg3)" />
+  
+  <!-- Person illustration -->
+  <g transform="translate(200, 200)">
+    <!-- Head -->
+    <circle cx="0" cy="-40" r="45" fill="#FDBCB4" />
+    
+    <!-- Hair -->
+    <path d="M -45 -60 Q -45 -85 0 -85 Q 45 -85 45 -60 Q 40 -70 0 -75 Q -40 -70 -45 -60" fill="#2C3E50" />
+    
+    <!-- Glasses -->
+    <circle cx="-15" cy="-40" r="8" fill="none" stroke="#34495E" stroke-width="2" />
+    <circle cx="15" cy="-40" r="8" fill="none" stroke="#34495E" stroke-width="2" />
+    <line x1="-7" y1="-40" x2="7" y2="-40" stroke="#34495E" stroke-width="2" />
+    
+    <!-- Eyes -->
+    <circle cx="-15" cy="-40" r="2" fill="#2C3E50" />
+    <circle cx="15" cy="-40" r="2" fill="#2C3E50" />
+    
+    <!-- Smile -->
+    <path d="M -15 -25 Q 0 -15 15 -25" stroke="#2C3E50" stroke-width="2" fill="none" />
+    
+    <!-- Body -->
+    <rect x="-60" y="10" width="120" height="100" rx="10" fill="#27AE60" />
+    
+    <!-- Code symbols on shirt -->
+    <g transform="scale(0.8)" fill="white" opacity="0.8">
+      <text x="-25" y="0" font-family="monospace" font-size="20" font-weight="bold">&lt;/&gt;</text>
+      <text x="10" y="0" font-family="monospace" font-size="20" font-weight="bold">{}</text>
+    </g>
+  </g>
+  
+  <!-- Name and role -->
+  <text x="200" y="340" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">Marcus Chen</text>
+  <text x="200" y="365" font-family="Arial, sans-serif" font-size="16" fill="white" text-anchor="middle" opacity="0.9">Engineering Lead</text>
+</svg>

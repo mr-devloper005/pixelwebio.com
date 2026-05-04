@@ -1,0 +1,84 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FA709A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FEE140;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#30CFD0;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#330867;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1400" height="900" fill="url(#grad5)" />
+  
+  <!-- Photography workflow illustration -->
+  <g transform="translate(700, 450)">
+    <!-- Workflow steps -->
+    <g opacity="0.9">
+      <!-- Step 1: Capture -->
+      <g transform="translate(-250, -100)">
+        <circle cx="0" cy="0" r="40" fill="white" opacity="0.3" />
+        <rect x="-20" y="-15" width="40" height="30" rx="5" fill="#2C3E50" />
+        <circle cx="0" cy="0" r="8" fill="#34495E" />
+        <circle cx="0" cy="0" r="5" fill="#45B7D1" />
+        <text x="0" y="60" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Capture</text>
+      </g>
+      
+      <!-- Arrow 1 -->
+      <path d="M -180 -100 L -120 -100" stroke="white" stroke-width="3" opacity="0.6" />
+      <path d="M -125 -105 L -120 -100 L -125 -95" stroke="white" stroke-width="3" opacity="0.6" />
+      
+      <!-- Step 2: Edit -->
+      <g transform="translate(-50, -100)">
+        <circle cx="0" cy="0" r="40" fill="white" opacity="0.3" />
+        <rect x="-18" y="-18" width="36" height="36" rx="3" fill="#E74C3C" />
+        <circle cx="-5" cy="-5" r="3" fill="white" />
+        <circle cx="5" cy="-5" r="3" fill="white" />
+        <circle cx="-5" cy="5" r="3" fill="white" />
+        <circle cx="5" cy="5" r="3" fill="white" />
+        <text x="0" y="60" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Edit</text>
+      </g>
+      
+      <!-- Arrow 2 -->
+      <path d="M 20 -100 L 80 -100" stroke="white" stroke-width="3" opacity="0.6" />
+      <path d="M 75 -105 L 80 -100 L 75 -95" stroke="white" stroke-width="3" opacity="0.6" />
+      
+      <!-- Step 3: Share -->
+      <g transform="translate(150, -100)">
+        <circle cx="0" cy="0" r="40" fill="white" opacity="0.3" />
+        <circle cx="0" cy="-5" r="8" fill="#3498DB" />
+        <circle cx="-10" cy="5" r="6" fill="#E74C3C" />
+        <circle cx="10" cy="5" r="6" fill="#2ECC71" />
+        <path d="M 0 -5 L -10 5 M 0 -5 L 10 5" stroke="white" stroke-width="2" />
+        <text x="0" y="60" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Share</text>
+      </g>
+    </g>
+    
+    <!-- Central image preview -->
+    <g transform="translate(0, 50)">
+      <rect x="-120" y="-80" width="240" height="160" rx="10" fill="white" opacity="0.2" />
+      <rect x="-100" y="-60" width="200" height="120" rx="8" fill="white" opacity="0.3" />
+      
+      <!-- Sample photo -->
+      <rect x="-80" y="-40" width="160" height="80" rx="5" fill="url(#grad6)" opacity="0.8" />
+      
+      <!-- Photo details -->
+      <text x="0" y="-50" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Professional Shot</text>
+      <text x="0" y="60" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" opacity="0.8">4K • 60fps • Pro Color</text>
+    </g>
+  </g>
+  
+  <!-- Floating particles -->
+  <g opacity="0.3">
+    <rect x="100" y="200" width="20" height="20" rx="3" fill="white" transform="rotate(45 110 210)" />
+    <rect x="1250" y="700" width="25" height="25" rx="4" fill="white" transform="rotate(30 1262 712)" />
+    <rect x="300" y="750" width="15" height="15" rx="2" fill="white" transform="rotate(60 307 757)" />
+    <rect x="1100" y="150" width="22" height="22" rx="3" fill="white" transform="rotate(15 1111 161)" />
+  </g>
+  
+  <!-- Text overlay -->
+  <text x="700" y="750" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle" opacity="0.9">Complete Workflow</text>
+  <text x="700" y="800" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" opacity="0.7">From Capture to Publication</text>
+</svg>

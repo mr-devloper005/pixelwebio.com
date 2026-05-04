@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { Camera, Heart, Sparkles, Users, Globe2, Award, ArrowRight } from 'lucide-react'
 import { AmberPage, AmberSection, AmberCard } from '@/components/shared/amber-page'
+import { fetchTaskPosts } from '@/lib/task-data'
+import type { SitePost } from '@/lib/site-connector'
 
 const stats = [
   { label: 'Creators on board', value: '12,400+' },
@@ -23,7 +25,10 @@ const milestones = [
   { year: '2026', title: 'New era', text: 'Rebuilt the platform around image + profile as a single, polished experience.' },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // Fetch latest images from database
+  const latestImages = await fetchTaskPosts('image', 6);
+  
   return (
     <AmberPage
       eyebrow="About Pixelwebio"
@@ -67,11 +72,29 @@ export default function AboutPage() {
           <div className="relative">
             <div className="absolute -left-3 -top-3 h-6 w-6 border-l-4 border-t-4 border-amber-500" />
             <div className="absolute -bottom-3 -right-3 h-6 w-6 border-b-4 border-r-4 border-amber-500" />
-            <img
-              src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=80"
-              alt="Our team at work"
-              className="h-[420px] w-full rounded-2xl object-cover shadow-lg"
-            />
+            {latestImages.length > 0 ? (
+              <div className="grid gap-3 h-[420px] grid-cols-2 grid-rows-2">
+                {latestImages.slice(0, 4).map((post, i) => {
+                  const imageUrl = (post.media?.[0]?.url as string) || (post.content?.logo as string) || '/placeholder.svg?height=400&width=400';
+                  return (
+                    <div key={post.id} className="relative overflow-hidden rounded-xl">
+                      <img
+                        src={imageUrl}
+                        alt={post.title || `Latest creation ${i + 1}`}
+                        className="h-full w-full object-cover hover:scale-105 transition duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition duration-300" />
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <img
+                src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=80"
+                alt="Our team at work"
+                className="h-[420px] w-full rounded-2xl object-cover shadow-lg"
+              />
+            )}
           </div>
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-600">Our story</p>
@@ -115,24 +138,7 @@ export default function AboutPage() {
         </AmberSection>
       </section>
 
-      {/* Timeline */}
-      <AmberSection>
-        <div className="text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-600">Milestones</p>
-          <h2 className="mt-3 text-4xl font-black text-slate-900">Our journey so far</h2>
-        </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {milestones.map((m) => (
-            <div key={m.year} className="relative rounded-2xl bg-white p-6 shadow-sm">
-              <div className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white">
-                <Camera className="h-3 w-3" /> {m.year}
-              </div>
-              <h3 className="mt-4 text-lg font-bold text-slate-900">{m.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">{m.text}</p>
-            </div>
-          ))}
-        </div>
-      </AmberSection>
-    </AmberPage>
+      
+          </AmberPage>
   )
 }
