@@ -8,7 +8,6 @@ const navGroups = [
     title: 'Platform',
     links: [
       { name: 'Image Gallery', href: '/images' },
-      { name: 'Creator Profiles', href: '/profile' },
       { name: 'Search', href: '/search' },
     ],
   },
@@ -26,8 +25,6 @@ const navGroups = [
     links: [
       { name: 'Help Center', href: '/help' },
       { name: 'Community', href: '/community' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Status', href: '/status' },
     ],
   },
   {
@@ -61,18 +58,7 @@ export function FooterOverride() {
               Image &amp; profile platform for creators, brands, and businesses
               ready to showcase their visual identity.
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              {[Instagram, Twitter, Linkedin, Mail].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-slate-300 transition hover:bg-amber-500 hover:text-white"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-          </div>
+                      </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {navGroups.map((group) => (
