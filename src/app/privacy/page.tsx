@@ -16,8 +16,7 @@ export default function PrivacyPage() {
           body: (
             <p>
               At Pixelwebio we believe privacy is a feature, not a footnote. This policy explains
-              what information we collect, why we collect it, and the choices you have. If you have
-              questions, email <a href="mailto:privacy@pixelwebio.com">privacy@pixelwebio.com</a>.
+              what information we collect, why we collect it, and choices you have.
             </p>
           ),
         },
@@ -87,8 +86,7 @@ export default function PrivacyPage() {
           heading: 'Contact us',
           body: (
             <p>
-              Questions about privacy? Reach our team at{' '}
-              <a href="mailto:privacy@pixelwebio.com">privacy@pixelwebio.com</a> or through our{' '}
+              Questions about privacy? Reach our team through our{' '}
               <a href="/contact">contact page</a>.
             </p>
           ),

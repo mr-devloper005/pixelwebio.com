@@ -68,18 +68,7 @@ export default function LicensesPage() {
             </p>
           ),
         },
-        {
-          id: 'requests',
-          heading: 'Attribution requests',
-          body: (
-            <p>
-              If you maintain a library we use and don&apos;t see proper attribution, please
-              email <a href="mailto:legal@pixelwebio.com">legal@pixelwebio.com</a> and
-              we&apos;ll fix it promptly.
-            </p>
-          ),
-        },
-      ]}
+              ]}
     />
   )
 }

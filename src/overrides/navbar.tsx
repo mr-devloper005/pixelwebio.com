@@ -12,7 +12,6 @@ export const NAVBAR_OVERRIDE_ENABLED = true
 const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Gallery', href: '/images' },
-  { name: 'Creators', href: '/profile' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
 ]
@@ -70,7 +69,7 @@ export function NavbarOverride() {
           {isAuthenticated ? (
             <div className="hidden items-center gap-2 md:flex">
               <Link
-                href="/profile"
+                href="/"
                 className="flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
                 <UserIcon className="h-4 w-4" />
