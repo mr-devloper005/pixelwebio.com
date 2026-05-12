@@ -13,7 +13,6 @@ const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || '+1 (408) 
 const contactAddress = process.env.NEXT_PUBLIC_CONTACT_ADDRESS?.trim() || '123 Market St, San Francisco'
 
 const channels = [
-  { icon: Mail, title: 'Email us', text: contactEmail, meta: 'Replies within 24 hours' },
   { icon: Phone, title: 'Call us', text: contactPhone, meta: 'Mon-Fri, 9am to 6pm PT' },
   { icon: MapPin, title: 'Visit us', text: contactAddress, meta: 'By appointment only' },
 ]
@@ -39,53 +38,8 @@ export function ContactPageOverride() {
       title="Let's create"
       highlight="something together"
       description="Whether you want to book a shoot, partner with us, or just say hello, we'd love to hear from you. Fill the form below or use one of the channels."
-      actions={
-        <>
-          <Link
-            href={`mailto:${contactEmail}`}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
           >
-            Email us <ArrowUpRight className="h-4 w-4" />
-          </Link>
-          <Link
-            href={`mailto:${supportEmail}`}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-amber-200 bg-white px-6 py-3 text-sm font-bold text-slate-900 transition hover:bg-amber-50"
-          >
-            Support email <Mail className="h-4 w-4" />
-          </Link>
-        </>
-      }
-    >
-      <AmberSection>
-        <div className="grid gap-5 md:grid-cols-3">
-          {channels.map((c) => {
-            const href =
-              c.title === 'Email us'
-                ? `mailto:${c.text}`
-                : c.title === 'Call us'
-                  ? `tel:${c.text.replace(/[^\d+]/g, '')}`
-                  : undefined
-
-            return (
-              <AmberCard key={c.title}>
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white">
-                  <c.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 text-lg font-bold text-slate-900">{c.title}</h3>
-                {href ? (
-                  <a href={href} className="mt-2 block font-semibold text-amber-600 hover:underline">
-                    {c.text}
-                  </a>
-                ) : (
-                  <p className="mt-2 font-semibold text-amber-600">{c.text}</p>
-                )}
-                <p className="mt-1 text-xs text-slate-500">{c.meta}</p>
-              </AmberCard>
-            )
-          })}
-        </div>
-      </AmberSection>
-
+      
       <AmberSection>
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div>

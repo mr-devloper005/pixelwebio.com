@@ -118,31 +118,7 @@ export async function HomePageOverride() {
       
       
       
-      {/* CTA */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 p-1 shadow-lg">
-          <div className="flex flex-col gap-4 rounded-[1.1rem] bg-amber-400/95 p-6 sm:flex-row sm:items-center">
-            <div className="flex-1">
-              <h3 className="text-2xl font-black text-white">You Still Have a Question?</h3>
-              <p className="mt-1 text-sm text-white/85">
-                Leave your number and our team will get back to you within 24 hours.
-              </p>
-            </div>
-            <div className="flex flex-1 items-center gap-2 rounded-xl bg-white px-3 py-2">
-              <Phone className="h-4 w-4 text-amber-500" />
-              <input
-                type="tel"
-                placeholder="Your phone number"
-                className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
-              />
-            </div>
-            <button className="rounded-xl bg-slate-900 px-6 py-3 text-sm font-bold text-white hover:bg-slate-800">
-              Call Me Back
-            </button>
-          </div>
-        </div>
-      </section>
-
+      
       {/* LATEST IMAGES SECTION */}
       <section className="bg-gradient-to-b from-amber-50 via-[#fff7e8] to-[#fffaf2] py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
